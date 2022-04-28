@@ -16,8 +16,11 @@ def find_shortest_path(nw: Network, start: Person, end: Person):
         return -3
 
     visited = {}
+    """visited: in this dictionary we save all the nodes and True if they've been visited, False otherwise """
     distances = {}
+    """distances: the shortest distances to a node from the starting one are saved and updated here"""
     previous_path_node = {}
+    """previous_path_node: Each node will have a corresponding previous node, the one who updated it last"""
     for person in nw.people.values():
         visited[person] = False
         distances[person] = float('+inf')
