@@ -1,0 +1,17 @@
+1. How did you represent the social network? Why did you choose this representation?
+I represented the social network by creating two classes. One that represents a person, and another(network)
+that contains all the people. The connections are contained within each person object, for simpler and more
+classified access of information. Each person's information can be accessed by and id within the network in O(1) time complexity.
+This representation made most sense to me, and it seems to be very straightforward. 
+
+2.The algorithm that i have chosen is Dijkstra's algorithm, which has a complexity of O(V + E*log(V)). I have also considered a BFS alternative with
+a slightly better complexity which works well for this case with unweighted edges (since the edges are unweighted, the first reach of the end point
+with a BFS search is also the shortest), but i was much more confident on dijkstra (and i didn't have a lot of time left :D).
+
+
+3. The test cases i have considered are the following:
+i) Finding the shortest path to multiple different vertexes and connections
+ii) Finding the path to a vertex that cannot be reached
+iii) Calling the function with improper parameters
+iv) Adding the same person to the network twice
+v) Adding a person to their own friends list

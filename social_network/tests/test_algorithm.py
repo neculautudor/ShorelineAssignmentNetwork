@@ -57,3 +57,34 @@ class TestAlgorithm(unittest.TestCase):
         possible_answers = [[self.andrei, self.chad, self.ion, self.tudor, self.teo],
                             [self.andrei, self.chad, self.andra, self.alex, self.teo]]
         self.assertIn(result, possible_answers)
+
+    def test_find_shortest_path_normal3(self):
+        self.create_network()
+        result = find_shortest_path(self.test_network, self.ion, self.andra)
+        possible_answer = [self.ion, self.chad, self.andra]
+        self.assertEqual(result, possible_answer)
+
+    def test_find_shortest_path_normal4(self):
+        self.create_network()
+        jon = Person('Jon', 8)
+        jon.add_friends([self.andrei, self.andra])
+        self.andra.add_friend(jon)
+        self.andrei.add_friend(jon)
+        self.test_network.add_people(jon)
+        result = find_shortest_path(self.test_network, self.ion, jon)
+        possible_answer = [self.ion, self.andrei, jon]
+        self.assertEqual(result, possible_answer)
+
+    def test_add_same_person(self):
+        self.create_network()
+        length = len(self.test_network.people)
+        self.test_network.add_people(self.teo)
+        new_length = len(self.test_network.people)
+        self.assertEqual(length, new_length)
+
+    def test_add_self_to_friends(self):
+        jon = Person('jon', 9)
+        jons_initial_friends = jon.friends
+        jon.add_friend(jon)
+        self.assertEqual(jons_initial_friends, jon.friends)
+

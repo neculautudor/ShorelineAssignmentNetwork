@@ -35,7 +35,7 @@ def find_shortest_path(nw: Network, start: Person, end: Person):
         min_distance_node = Person('fic', 13)
         fictional_node = min_distance_node
         distances[min_distance_node] = float('+inf')
-        """the next smallest distance person is chosen until there are no more unvisited people"""
+        """the next smallest distance person is chosen"""
         for person in visited:
             if not visited[person] and distances[person] < distances[min_distance_node]:
                 min_distance_node = person
@@ -45,6 +45,7 @@ def find_shortest_path(nw: Network, start: Person, end: Person):
 
         distances.pop(fictional_node)
         visited[vertex] = True
+        """the algorithm calls itself until there's no more unvisited nodes"""
         dijkstra(min_distance_node)
 
     dijkstra(start)

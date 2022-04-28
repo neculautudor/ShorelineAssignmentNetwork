@@ -32,7 +32,7 @@ def create_network():
 
 if __name__ == '__main__':
     create_network()
-    path = find_shortest_path(social_network, social_network.people[andrei.id], social_network.people[teo.id])
+    path = find_shortest_path(social_network, andrei, teo)
     if path:
         for person in path:
             print(person.name)
