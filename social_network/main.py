@@ -1,4 +1,4 @@
-from algorithm import find_shortest_path
+from algorithm import find_shortest_path_dijkstra, find_shortest_path_bfs
 from network import Network
 from person import Person
 
@@ -32,7 +32,7 @@ def create_network():
 
 if __name__ == '__main__':
     create_network()
-    path = find_shortest_path(social_network, andrei, teo)
+    path = find_shortest_path_bfs(social_network, andrei, teo)
     if path:
         for person in path:
             print(person.name)

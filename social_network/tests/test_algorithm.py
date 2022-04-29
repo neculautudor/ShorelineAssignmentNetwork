@@ -1,5 +1,5 @@
 import unittest
-from algorithm import find_shortest_path
+from algorithm import find_shortest_path_dijkstra, find_shortest_path_bfs
 from network import Network
 from person import Person
 
@@ -30,7 +30,7 @@ class TestAlgorithm(unittest.TestCase):
 
     def test_find_shortest_path_normal(self):
         self.create_network()
-        result = find_shortest_path(self.test_network, self.andrei, self.teo)
+        result = find_shortest_path_bfs(self.test_network, self.andrei, self.teo)
         self.assertEqual(result, [self.andrei, self.ion, self.tudor, self.teo])
 
     def test_find_shortest_path_no_link(self):
@@ -40,27 +40,32 @@ class TestAlgorithm(unittest.TestCase):
         self.giga.friends.remove(self.teo)
         self.alex.friends.remove(self.teo)
         """teo now has no friends, therefore there should be no link"""
-        result = find_shortest_path(self.test_network, self.andrei, self.teo)
-        self.assertEqual(result, 0)
+        with self.assertRaises(BaseException) as context:
+            find_shortest_path_bfs(self.test_network, self.andrei, self.teo)
+        self.assertEqual('There is no path available between the two chosen nodes', str(context.exception))
 
     def test_find_shortest_path_improper_type(self):
         self.create_network()
-        result = find_shortest_path(None, self.andrei, self.teo)
-        self.assertEqual(result, -1)
+        # result = find_shortest_path_bfs(None, self.andrei, self.teo)
+        # self.assertEqual(result, -1)
+        with self.assertRaises(TypeError) as context:
+            find_shortest_path_bfs(None, self.andrei, self.teo)
+        self.assertTrue('ERROR: Network type does not fit' in str(context.exception))
+
 
     def test_find_shortest_path_normal2(self):
         self.create_network()
         self.andrei.friends.remove(self.ion)
         self.ion.friends.remove(self.andrei)
         """the link between vertex 0 and 1 is removed, so the result should be different"""
-        result = find_shortest_path(self.test_network, self.andrei, self.teo)
+        result = find_shortest_path_bfs(self.test_network, self.andrei, self.teo)
         possible_answers = [[self.andrei, self.chad, self.ion, self.tudor, self.teo],
                             [self.andrei, self.chad, self.andra, self.alex, self.teo]]
         self.assertIn(result, possible_answers)
 
     def test_find_shortest_path_normal3(self):
         self.create_network()
-        result = find_shortest_path(self.test_network, self.ion, self.andra)
+        result = find_shortest_path_bfs(self.test_network, self.ion, self.andra)
         possible_answer = [self.ion, self.chad, self.andra]
         self.assertEqual(result, possible_answer)
 
@@ -71,7 +76,7 @@ class TestAlgorithm(unittest.TestCase):
         self.andra.add_friend(jon)
         self.andrei.add_friend(jon)
         self.test_network.add_people(jon)
-        result = find_shortest_path(self.test_network, self.ion, jon)
+        result = find_shortest_path_bfs(self.test_network, self.ion, jon)
         possible_answer = [self.ion, self.andrei, jon]
         self.assertEqual(result, possible_answer)
 

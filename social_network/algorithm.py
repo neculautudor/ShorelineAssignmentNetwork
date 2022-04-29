@@ -1,19 +1,62 @@
 from collections import deque
+from logging import exception
 
 from network import Network
 from person import Person
 
 
-def find_shortest_path(nw: Network, start: Person, end: Person):
+def find_shortest_path_bfs(nw: Network, start: Person, end: Person):
     if type(nw) != Network:
-        print('ERROR: Network type does not fit')
-        return -1
+        raise TypeError('ERROR: Network type does not fit')
     if start not in nw.people.values():
-        print('ERROR: starting node is not in the network')
-        return -2
+        raise TypeError('ERROR: starting node is not in the network')
     if end not in nw.people.values():
-        print('ERROR: end node is not in the network')
-        return -3
+        raise TypeError('ERROR: end node is not in the network')
+
+    visited = {}
+    """visited: in this dictionary we save all the nodes and True if they've been visited, False otherwise """
+    previous_path_node = {}
+    """previous_path_node: Each node will have a corresponding previous node, the one who updated it last"""
+    nodes_queue = deque([start])
+    """in the nodes_queue we store the nodes that need to be iterated in a breadth first search"""
+    path = deque([end])
+    for person in nw.people.values():
+        visited[person] = False
+    visited[start] = True
+
+    while len(nodes_queue):
+        """when there are no more nodes in the queue, it stops"""
+        cur_node = nodes_queue.popleft()
+        """the first node in the queue is popped and used for adding its adjacent unvisited nodes to
+        the queue and marking them as visited"""
+        for node in cur_node.friends:
+            if node == end:
+                """if the end node is reached, it is certainly found through the shortest path, due to
+                the BFS search and the fact that the graph is unweighted"""
+                while cur_node != start:
+                    """the path is being populated and returned"""
+                    path.appendleft(cur_node)
+                    cur_node = previous_path_node[cur_node]
+                path.appendleft(cur_node)
+                return list(path)
+
+            if not visited[node]:
+                visited[node] = True
+                nodes_queue.append(node)
+                previous_path_node[node] = cur_node
+    """if the path hasn't been returned, then this code is reached and raises and exception"""
+    raise BaseException('There is no path available between the two chosen nodes')
+
+
+
+
+def find_shortest_path_dijkstra(nw: Network, start: Person, end: Person):
+    if type(nw) != Network:
+        raise exception('ERROR: Network type does not fit')
+    if start not in nw.people.values():
+        raise exception('ERROR: starting node is not in the network')
+    if end not in nw.people.values():
+        raise exception('ERROR: end node is not in the network')
 
     visited = {}
     """visited: in this dictionary we save all the nodes and True if they've been visited, False otherwise """

@@ -7,6 +7,9 @@ This representation made most sense to me, and it seems to be very straightforwa
 2.The algorithm that i have chosen is Dijkstra's algorithm, which has a complexity of O(V + E*log(V)). I have also considered a BFS alternative with
 a slightly better complexity which works well for this case with unweighted edges (since the edges are unweighted, the first reach of the end point
 with a BFS search is also the shortest), but i was much more confident on dijkstra (and i didn't have a lot of time left :D).
+UPDATE:
+The main algorithm is the BFS search with keeping track of the visited nodes, and stopping when the end node is reached. This implementation is the optimal
+solution to the problem at hand.
 
 
 3. The test cases i have considered are the following:
